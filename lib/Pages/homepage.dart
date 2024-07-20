@@ -1,24 +1,33 @@
 import 'package:flutter/material.dart';
+import "package:flutternew/widgets/drawer.dart";
+
+import '../widgets/drawer.dart';
+
 class homepage extends StatelessWidget {
-  const homepage({super.key});
- final days= 30;
- final name="Harshvardhan";
+  final int days = 30;
+  final String name = "Harshvardhan";
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: AppBar(
+    return Scaffold(
 
-        title: Text("Catalog app"),
-       backgroundColor: Colors.purpleAccent,
-      ),
-      body:Center(
-        child:  Container(
-          child: Text("Welcome to $days days of flutter and i am $name"),
-        //  color: Colors.red,
+      appBar: AppBar(
+      backgroundColor: Colors.deepPurple,
+        iconTheme: IconThemeData(
+          color: Colors.white, // Set the drawer icon color here
         ),
-      ) ,
-drawer: Drawer(
-),
+        title: Text("Catalog App",style: TextStyle(color: Colors.white),),
+      ),
+      body: Center(
+        child: Container(
+          child: Text("Welcome to $days days of Flutter and i am $name"),
+
+        ),
+
+      ),
+      drawer:
+      MyDrawer(
+      ),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutternew/Pages/homepage.dart';
 import 'package:flutternew/Pages/loginPage.dart';
 import 'package:flutternew/utils/routes.dart';
+import 'package:flutternew/widgets/theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 void main() {
   runApp(Myapp());
@@ -19,16 +20,12 @@ class _MyappState extends State<Myapp> {
     return MaterialApp(
       //home:homepage(),
       themeMode: ThemeMode.light,
-      theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-        fontFamily: GoogleFonts.lato().fontFamily,
-       // primaryTextTheme:GoogleFonts.latoTextTheme()
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-      ),
+      theme: MyTheme.lightTheme(context),
+
+      debugShowCheckedModeBanner: false,
+      darkTheme:MyTheme.darkTheme(context),
       routes: {
-        "/":(context) => loginPage(),
+        "/":(context) => homepage(),
         MyRoutes.loginRoute:(context) => loginPage(),
         MyRoutes.homeRoute:(context) => homepage()
 
