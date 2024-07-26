@@ -3,7 +3,7 @@ import 'package:flutternew/Pages/homepage.dart';
 import 'package:flutternew/Pages/loginPage.dart';
 import 'package:flutternew/utils/routes.dart';
 import 'package:flutternew/widgets/theme.dart';
-import 'package:google_fonts/google_fonts.dart';
+import "package:google_fonts/google_fonts.dart";
 void main() {
   runApp(Myapp());
 }
@@ -25,11 +25,14 @@ class _MyappState extends State<Myapp> {
       debugShowCheckedModeBanner: false,
       darkTheme:MyTheme.darkTheme(context),
       routes: {
-        "/":(context) => homepage(),
+        "/":(context) => HomePage(),
         MyRoutes.loginRoute:(context) => loginPage(),
-        MyRoutes.homeRoute:(context) => homepage()
+        MyRoutes.homeRoute:(context) => HomePage()
 
       },
     );
   }
+
+
 }
+
