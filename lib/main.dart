@@ -1,38 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:flutternew/Pages/homepage.dart';
-import 'package:flutternew/Pages/loginPage.dart';
-import 'package:flutternew/utils/routes.dart';
-import 'package:flutternew/widgets/theme.dart';
-import "package:google_fonts/google_fonts.dart";
+import 'package:flutternew/utils/theme_notifier.dart';
+import 'package:provider/provider.dart';
+import 'theme_notifier.dart';
+import 'Pages/homepage.dart';
+import 'utils/routes.dart';
+import 'widgets/theme.dart';
+import 'Pages/cart_page.dart';
+import 'Pages/loginPage.dart';
+
 void main() {
-  runApp(Myapp());
+  runApp(MyApp());
 }
-class Myapp extends StatefulWidget {
-  const Myapp({super.key});
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
   @override
-  State<Myapp> createState() => _MyappState();
+  State<MyApp> createState() => _MyAppState();
 }
 
-class _MyappState extends State<Myapp> {
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      //home:homepage(),
-      themeMode: ThemeMode.light,
-      theme: MyTheme.lightTheme(context),
-
-      debugShowCheckedModeBanner: false,
-      darkTheme:MyTheme.darkTheme(context),
-      routes: {
-        "/":(context) => HomePage(),
-        MyRoutes.loginRoute:(context) => loginPage(),
-        MyRoutes.homeRoute:(context) => HomePage()
-
-      },
+    return ChangeNotifierProvider(
+      create: (_) => ThemeNotifier(),
+      child: Consumer<ThemeNotifier>(
+        builder: (context, themeNotifier, child) {
+          return MaterialApp(
+            themeMode: ThemeMode.system,
+            theme: themeNotifier.getTheme(context),
+            darkTheme: MyTheme.darkTheme(context),
+            debugShowCheckedModeBanner: false,
+            routes: {
+              "/": (context) => HomePage(),
+              MyRoutes.loginRoute: (context) => loginPage(),
+              MyRoutes.homeRoute: (context) => HomePage(),
+              MyRoutes.cartRoute: (context) => CartPage(),
+            },
+          );
+        },
+      ),
     );
   }
-
-
 }
-

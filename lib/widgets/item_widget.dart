@@ -22,7 +22,7 @@ class ItemWidget extends StatelessWidget {
           textScaleFactor: 1.7,
           style : TextStyle(
             color: Colors.deepPurple,
-      fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.bold,
           ),),
 
       ),

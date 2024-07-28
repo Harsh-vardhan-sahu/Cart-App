@@ -14,6 +14,7 @@ dependencies:
   velocity_x: ^4.0.0
   google_fonts: ^6.2.1  # Updated version
   cupertino_icons: ^1.0.6
+  provider: ^6.0.0
 
 dev_dependencies:
   flutter_test:

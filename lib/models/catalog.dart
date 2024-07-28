@@ -1,7 +1,22 @@
 import 'dart:convert';
 
 class CatalogModel {
-  static List<Item> items = [];  // Initialize the items list
+  static List<Item> items = []; // Initialize the items list
+
+ static  Item getById(int id) {
+    return items.firstWhere(
+          (element) => element.id == id,
+      orElse: () => Item(
+        id: -1, // Use a value that indicates a placeholder
+        name: 'Unknown',
+        desc: 'Unknown description',
+        price: 0,
+        color: 'Unknown color',
+        image: 'https://via.placeholder.com/150', // Placeholder image URL
+      ),
+    );
+  }
+  static Item getByPosition(int pos)=>items[pos];
 }
 
 class Item {
