@@ -12,14 +12,16 @@ dependencies:
   flutter:
     sdk: flutter
   velocity_x: ^4.0.0
-  google_fonts: ^6.2.1  # Updated version
+  google_fonts: ^6.2.1
   cupertino_icons: ^1.0.6
   provider: ^6.0.0
+  firebase_core: ^2.7.0  # Firebase core for initialization
+  firebase_auth: ^4.8.0  # Firebase authentication for OTP
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0  # Updated version
+  flutter_lints: ^4.0.0
 
 flutter:
   uses-material-design: true

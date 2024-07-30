@@ -1,30 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:flutternew/Pages/home_detail_page.dart';
-import 'package:flutternew/models/cart.dart';
 import 'package:velocity_x/velocity_x.dart';
-import '../../models/catalog.dart';
-import '../../widgets/theme.dart';
-import 'catalog_image.dart';
- // Import the new widget
+import 'package:flutternew/models/catalog.dart';
+import 'package:flutternew/pages/home_detail_page.dart';
+import 'package:flutternew/models/addtocart.dart';
+
+import '../../core/mutation.dart'; // Import the AddToCart widget
 
 class CatalogList extends StatelessWidget {
   @override
-
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: CatalogModel.items.length,
-      itemBuilder: (context, index) {
-        final catalog = CatalogModel.getByPosition(index);
-        return InkWell(
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => HomeDetailPage(
-                catalog: catalog,
+    return VxBuilder(
+      mutations: {AddMutation, RemoveMutation},
+      builder: (context, _, status) {
+        return ListView.builder(
+          shrinkWrap: true,
+          itemCount: CatalogModel.items.length,
+          itemBuilder: (context, index) {
+            final catalog = CatalogModel.items[index];
+            return GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomeDetailPage(catalog: catalog),
+                ),
               ),
-            ),
-          ),
-          child: CatalogItem(catalog: catalog),
+              child: CatalogItem(catalog: catalog),
+            );
+          },
         );
       },
     );
@@ -34,7 +36,7 @@ class CatalogList extends StatelessWidget {
 class CatalogItem extends StatelessWidget {
   final Item catalog;
 
-  const CatalogItem({required this.catalog});
+  const CatalogItem({Key? key, required this.catalog}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +45,14 @@ class CatalogItem extends StatelessWidget {
         children: [
           Hero(
             tag: Key(catalog.id.toString()),
-            child: CatalogImage(image: catalog.image),
+            child: Image.network(catalog.image).box.rounded.p8.color(context.canvasColor).make().p16().w40(context),
           ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                catalog.name.text.lg.color(context.theme.colorScheme.secondary).bold.make(),
+                catalog.name.text.lg.color(context.accentColor).bold.make(),
                 catalog.desc.text.textStyle(context.captionStyle).make(),
                 10.heightBox,
                 ButtonBar(
@@ -58,49 +60,14 @@ class CatalogItem extends StatelessWidget {
                   buttonPadding: EdgeInsets.zero,
                   children: [
                     "\$${catalog.price}".text.bold.xl.make(),
-                    _AddToCart(catalog: catalog), // Use the new widget here
+                    AddToCart(catalog: catalog),
                   ],
-                ).pOnly(right: 8.0),
+                ).pOnly(right: 8.0)
               ],
             ),
-          ),
+          )
         ],
       ),
-    ).color(context.cardColor).rounded.square(150).make().py16();
-  }
-}
-class _AddToCart extends StatefulWidget {
-  final Item catalog;
-
-  const _AddToCart({Key? key, required this.catalog}) : super(key: key);
-
-  @override
-  _AddToCartState createState() => _AddToCartState();
-}
-
-class _AddToCartState extends State<_AddToCart> {
-  bool isAdded = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          isAdded = isAdded.toggle();
-          final _catalog=CatalogModel();
-          final _cart=CartModel();
-          _cart.catalog=_catalog;
-          _cart.add(widget.catalog);
-          setState(() {
-
-          });
-        });
-      },
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(context.theme.colorScheme.primary),
-        shape: MaterialStateProperty.all(StadiumBorder()),
-      ),
-      child: (isAdded ? "Added" : "Buy").text.white.make(),
-    );
+    ).color(context.cardColor).roundedLg.square(150).make().py16();
   }
 }

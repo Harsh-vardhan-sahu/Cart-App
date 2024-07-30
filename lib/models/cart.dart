@@ -1,14 +1,16 @@
 import 'package:flutternew/models/catalog.dart';
 
 class CartModel {
-  // Singleton pattern
-  static final cartModel = CartModel._internal();
+  // Private constructor
+  CartModel._();
 
-  CartModel._internal();
+  // Singleton instance
+  static final CartModel _instance = CartModel._();
 
-  factory CartModel() => cartModel;
+  // Factory constructor to return the singleton instance
+  factory CartModel() => _instance;
 
-  // catalog field
+  // Catalog field
   late CatalogModel _catalog; // Ensure this is initialized before use
 
   // Collection of IDs - store Ids of each item
@@ -30,7 +32,9 @@ class CartModel {
 
   // Add Item
   void add(Item item) {
-    _itemIds.add(item.id);
+    if (!_itemIds.contains(item.id)) {
+      _itemIds.add(item.id);
+    }
   }
 
   // Remove Item

@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutternew/core/store.dart';
 import 'package:flutternew/utils/theme_notifier.dart';
 import 'package:provider/provider.dart';
-import 'theme_notifier.dart';
+import 'package:velocity_x/velocity_x.dart';
 import 'Pages/homepage.dart';
 import 'utils/routes.dart';
-import 'widgets/theme.dart';
 import 'Pages/cart_page.dart';
 import 'Pages/loginPage.dart';
+import 'Pages/otpPage.dart';
+import 'widgets/theme.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(VxState(
+    store: MyStore(),
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -33,9 +38,10 @@ class _MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             routes: {
               "/": (context) => HomePage(),
-              MyRoutes.loginRoute: (context) => loginPage(),
+              MyRoutes.loginRoute: (context) => LoginPage(),
               MyRoutes.homeRoute: (context) => HomePage(),
               MyRoutes.cartRoute: (context) => CartPage(),
+              MyRoutes.otpRoute: (context) => OtpPage(),
             },
           );
         },

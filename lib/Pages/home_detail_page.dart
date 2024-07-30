@@ -1,21 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutternew/widgets/theme.dart';
 import 'package:velocity_x/velocity_x.dart';
-import '../models/cart.dart';
 import '../models/catalog.dart';
+import '../models/addtocart.dart';
 
-class HomeDetailPage extends StatefulWidget {
+class HomeDetailPage extends StatelessWidget {
   final Item catalog;
 
   const HomeDetailPage({Key? key, required this.catalog}) : super(key: key);
-
-  @override
-  _HomeDetailPageState createState() => _HomeDetailPageState();
-}
-
-class _HomeDetailPageState extends State<HomeDetailPage> {
-  bool isAdded = false;
-  final _cart = CartModel();
 
   @override
   Widget build(BuildContext context) {
@@ -31,21 +22,8 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
           alignment: MainAxisAlignment.spaceBetween,
           buttonPadding: EdgeInsets.zero,
           children: [
-            "\$${widget.catalog.price}".text.bold.xl4.make(),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  isAdded = !isAdded;
-                  _cart.catalog = CatalogModel();
-                  _cart.add(widget.catalog);
-                });
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(context.theme.colorScheme.primary),
-                shape: MaterialStateProperty.all(StadiumBorder()),
-              ),
-              child: isAdded ? "Added".text.white.make() : "Add to cart".text.white.make(),
-            ).wh(130, 50),
+            "\$${catalog.price}".text.bold.xl4.make(),
+            AddToCart(catalog: catalog), // Use AddToCart widget here
           ],
         ).p32(),
       ),
@@ -54,8 +32,8 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
         child: Column(
           children: [
             Hero(
-              tag: Key(widget.catalog.id.toString()),
-              child: Image.network(widget.catalog.image),
+              tag: Key(catalog.id.toString()),
+              child: Image.network(catalog.image),
             ).h32(context),
             Expanded(
               child: VxArc(
@@ -67,8 +45,8 @@ class _HomeDetailPageState extends State<HomeDetailPage> {
                   color: context.cardColor,
                   child: Column(
                     children: [
-                      widget.catalog.name.text.xl4.color(context.theme.colorScheme.secondary).bold.make(),
-                      widget.catalog.desc.text.textStyle(context.captionStyle).xl.make(),
+                      catalog.name.text.xl4.color(context.theme.colorScheme.secondary).bold.make(),
+                      catalog.desc.text.textStyle(context.captionStyle).xl.make(),
                       SizedBox(height: 10),
                     ],
                   ).py64(),

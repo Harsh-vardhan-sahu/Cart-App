@@ -1,27 +1,32 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutternew/utils/routes.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class loginPage extends StatefulWidget {
-  const loginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<loginPage> createState() => _loginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _loginPageState extends State<loginPage> {
+class _LoginPageState extends State<LoginPage> {
   String name = "";
+  String phoneNumber = ""; // Added for OTP
   bool changeButton = false;
   final _formKey = GlobalKey<FormState>();
 
-  moveToHome(BuildContext context) async {
+  moveToOtp(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         changeButton = true;
       });
       await Future.delayed(Duration(seconds: 1));
-      await Navigator.pushNamed(context, MyRoutes.homeRoute);
+      // Navigate to OTP Page with phone number
+      await Navigator.pushNamed(
+        context,
+        MyRoutes.otpRoute,
+        arguments: phoneNumber,
+      );
       setState(() {
         changeButton = false;
       });
@@ -31,10 +36,10 @@ class _loginPageState extends State<loginPage> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: context.cardColor,
+      color: context.theme.colorScheme.secondary,
       child: SingleChildScrollView(
         child: Form(
-          key: _formKey, // Added form key here
+          key: _formKey,
           child: Column(
             children: [
               Image.asset(
@@ -69,16 +74,32 @@ class _loginPageState extends State<loginPage> {
                       },
                     ),
                     TextFormField(
+                      decoration: InputDecoration(
+                        hintText: "Enter phone number",
+                        labelText: "Phone Number",
+                      ),
+                      keyboardType: TextInputType.phone,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Phone number cannot be empty";
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        phoneNumber = value;
+                        setState(() {});
+                      },
+                    ),
+                    TextFormField(
                       obscureText: true,
                       decoration: InputDecoration(
-                        hintText: "Enter password", // Changed to singular
+                        hintText: "Enter password",
                         labelText: "Password",
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Password cannot be empty";
-                        }
-                        else if(value!="Kani"){
+                        } else if (value != "Kani") {
                           return "Password is incorrect";
                         }
                         return null;
@@ -89,7 +110,7 @@ class _loginPageState extends State<loginPage> {
                       color: Colors.purple,
                       borderRadius: BorderRadius.circular(changeButton ? 50 : 8),
                       child: InkWell(
-                        onTap: () => moveToHome(context),
+                        onTap: () => moveToOtp(context),
                         child: AnimatedContainer(
                           width: changeButton ? 50 : 100,
                           duration: Duration(seconds: 1),
